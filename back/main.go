@@ -18,7 +18,6 @@ var clients = make(map[*websocket.Conn]bool) // 連接的客戶端
 
 func main() {
 	http.HandleFunc("/chat", handleConnections)
-	// go sendAliveMessages() // 啟動定時發送 alive 訊息的 goroutine
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
@@ -35,12 +34,25 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	for {
 		_, msgBytes, err := conn.ReadMessage()
 		if err != nil {
-			log.Printf("error reading message: %v", err)
+			// 檢查是否是正常的連接關閉引發的錯誤
+			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+				log.Printf("讀取訊息時發生錯誤: %v", err)
+			}
 			delete(clients, conn)
 			break
 		}
 		msg := string(msgBytes)
-		log.Printf("received message: %s", msg)
+		log.Printf("Received: %s", msg)
+
+		// 假設在這裡處理收到的訊息
+
+		// 發送訊息給客戶端
+		err = conn.WriteMessage(websocket.TextMessage, []byte("Received: "+msg))
+		if err != nil {
+			log.Printf("發送訊息時發生錯誤: %v", err)
+			delete(clients, conn)
+			break
+		}
 	}
 }
 
