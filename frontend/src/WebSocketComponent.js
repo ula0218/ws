@@ -62,7 +62,7 @@ const WebSocketComponent = () => {
 
   return (
     <div className="App">
-      <h1>WebSocket 聊天室</h1>
+      <h1>聊天室</h1>
       <div className="message-container">
         {messages.map((message, index) => (
           <div key={index} className="message">
