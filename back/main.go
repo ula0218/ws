@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -19,7 +18,7 @@ var clients = make(map[*websocket.Conn]bool) // 連接的客戶端
 
 func main() {
 	http.HandleFunc("/chat", handleConnections)
-	go sendAliveMessages() // 啟動定時發送 alive 訊息的 goroutine
+	// go sendAliveMessages() // 啟動定時發送 alive 訊息的 goroutine
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
@@ -45,20 +44,20 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func sendAliveMessages() {
-	ticker := time.NewTicker(3 * time.Second) // 每隔 3 秒發送一次 alive 訊息
-	defer ticker.Stop()
+// func sendAliveMessages() {
+// 	ticker := time.NewTicker(3 * time.Second) // 每隔 3 秒發送一次 alive 訊息
+// 	defer ticker.Stop()
 
-	for range ticker.C {
-		for client := range clients {
-			// 構建 alive 訊息
-			message := map[string]string{"message": "alive"}
-			err := client.WriteJSON(message)
-			if err != nil {
-				log.Printf("error sending alive message: %v", err)
-				client.Close()
-				delete(clients, client)
-			}
-		}
-	}
-}
+// 	for range ticker.C {
+// 		for client := range clients {
+// 			// 構建 alive 訊息
+// 			message := map[string]string{"message": "alive"}
+// 			err := client.WriteJSON(message)
+// 			if err != nil {
+// 				log.Printf("error sending alive message: %v", err)
+// 				client.Close()
+// 				delete(clients, client)
+// 			}
+// 		}
+// 	}
+// }

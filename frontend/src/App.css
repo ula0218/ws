@@ -1,0 +1,48 @@
+/* src/App.css */
+
+.App {
+  text-align: center;
+}
+
+.message-container {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.input-container {
+  margin-top: 20px;
+}
+
+.input-container input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  width: 300px;
+}
+
+.input-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-container button:hover {
+  background-color: #0056b3;
+}
